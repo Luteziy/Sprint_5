@@ -4,6 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from locators import Locators
 from data import *
+from helpers import *
 
 
 
@@ -33,14 +34,12 @@ class TestLogin:
     def test_login_registration_form(self, driver):
         driver.find_element(*Locators.account_button).click()
         driver.find_element(*Locators.registrate_button).click()
-        driver.find_element(*Locators.name).send_keys(name)
+        driver.find_element(*Locators.enter_button).click()
         driver.find_element(*Locators.email).send_keys(email)
         driver.find_element(*Locators.password).send_keys(password)
-        driver.find_element(*Locators.registrate_button).click()
-        driver.find_element(*Locators.email).send_keys(email)
-        driver.find_element(*Locators.password).send_keys(password)
+        WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable(Locators.enter_text_enter))
         driver.find_element(*Locators.enter_text_enter).click()
-        WebDriverWait(driver, 10).until(expected_conditions.element_to_be_clickable(Locators.order_button))
+        WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable(Locators.order_button))
         check_button = driver.find_element(*Locators.order_butt).text
         assert check_button == 'Оформить заказ'
 
